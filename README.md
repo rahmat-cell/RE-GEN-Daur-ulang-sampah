@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RE:GEN — Daur Ulang Sampah, Reimajinasikan Masa Depan
 
 Prototipe platform untuk kompetisi tingkat nasional (PNB IT Competition #18 — subtema *Lingkungan*) yang mengubah sampah menjadi nilai lewat pengumpulan, pemilahan, edukasi, Green Points, reward, dan pelacakan dampak lingkungan.
@@ -82,3 +83,6 @@ Buka `index.html` di browser modern mana pun (disarankan Chrome/Edge). Tidak per
 - Semua statistik bersifat ilustrasi/simulasi dan diberi label demikian.
 - "Masuk" disimulasikan lewat localStorage (email valid apa pun + kata sandi minimal 6 karakter).
 - Koordinat titik drop hanyalah lokasi contoh, bukan alamat sebenarnya.
+=======
+# RE-GEN-Daur-ulang-sampah
+>>>>>>> 72b1859344bddcab40f57ab1f3ef744cd699c137
