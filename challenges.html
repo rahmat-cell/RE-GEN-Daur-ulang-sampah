@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tantangan RE:GEN — jadikan keberlanjutan kebiasaan harianmu.">
+  <title>Tantangan — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><span class="current">Tantangan</span>
+      </nav>
+      <h1 class="ph-title">Jadikan Keberlanjutan<br><span class="accent">Kebiasaan.</span></h1>
+      <p class="ph-desc">Ikuti tantangan komunitas, bangun kebiasaan baik, dan kumpulkan Green Points bonus di sepanjang jalan.</p>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:10px">
+    <div class="container">
+      <div id="activeChallenges"></div>
+
+      <div class="section-head reveal" style="margin-top:56px">
+        <span class="eyebrow">Masih Ada Lagi</span>
+        <h2 class="section-title">Tantangan <span class="accent">Lainnya</span>?</h2>
+        <p class="section-desc">Mulailah dari satu — setiap kebiasaan berawal dari hari pertama.</p>
+      </div>
+      <div class="app-grid cols-3" id="otherChallenges"></div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "challenges");
+      renderFooter("footer");
+
+      const container = document.getElementById("activeChallenges");
+
+      function dayBlocks(done, total) {
+        let html = "";
+        for (let i = 1; i <= total; i++) {
+          const cls = i <= done ? "done" : i === done + 1 ? "today" : "";
+          html += `<span class="ch-day ${cls}">${cls === "done" ? "✓" : i}</span>`;
+        }
+        return html;
+      }
+
+      container.innerHTML = challengesData.map((ch, idx) => {
+        const pct = Math.round((ch.done / ch.totalDays) * 100);
+        const state = ch.done === 0 ? "Ikuti Tantangan" : ch.done === ch.totalDays ? "Selesai" : "Lanjutkan";
+        return `
+        <div class="challenge-item reveal">
+          <div class="cl-icon"><i class="fa-solid ${ch.icon}"></i></div>
+          <div class="cl-body">
+            <div class="cl-title">
+              ${ch.name}
+              <span class="tag ${pct === 100 ? "lime" : pct > 0 ? "green" : "gray"}">${pct === 100 ? '<i class="fa-solid fa-check"></i> Selesai' : pct > 0 ? pct + "%" : "Belum dimulai"}</span>
+            </div>
+            <p class="cl-desc">${ch.desc}</p>
+            <div class="cl-days">${dayBlocks(ch.done, ch.totalDays)}</div>
+            <div class="ch-progress-label"><span>${ch.done} dari ${ch.totalDays} hari</span><span>${pct}%</span></div>
+            <div class="progress-track"><div class="progress-fill" data-progress="${pct}"></div></div>
+            <button class="btn btn-join btn-sm" data-challenge="${ch.id}" style="margin-top:18px">
+              <i class="fa-solid fa-leaf"></i> <span>${state}</span>
+            </button>
+          </div>
+          <div style="text-align:right;min-width:90px">
+            <div class="reward-cost" style="font-size:1.2rem;justify-content:flex-end"><i class="fa-solid fa-star" style="font-size:14px"></i> +${ch.gpa} GP</div>
+            <div style="font-size:12px;color:var(--soft-gray)">saat selesai</div>
+          </div>
+        </div>`;
+      }).join("");
+
+      // tantangan lain
+      document.getElementById("otherChallenges").innerHTML = otherChallenges.map(ch => `
+        <div class="app-card hoverable" style="display:flex;flex-direction:column">
+          <div class="challenge-icon" style="width:54px;height:54px;margin-bottom:16px"><i class="fa-solid ${ch.icon}"></i></div>
+          <h4 style="margin-bottom:8px">${ch.name}</h4>
+          <p style="color:var(--text-soft);font-size:0.92rem;flex:1;margin-bottom:14px">Kemenangan cepat untuk melengkapi rutinitasmu.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span class="tag green"><i class="fa-solid fa-star"></i> +${ch.gpa} GP</span>
+            <button class="btn btn-join btn-sm other-join"><i class="fa-solid fa-leaf"></i> Ikuti</button>
+          </div>
+        </div>`).join("");
+
+      document.querySelectorAll(".other-join").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.classList.replace("btn-join", "btn-joined");
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Bergabung';
+          showToast("Tantangan ditambahkan ke daftarmu!", "success", "fa-trophy");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

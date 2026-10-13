@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Buat akun RE:GEN dan mulai perjalananmu memulihkan sampah menjadi nilai.">
+  <title>Daftar — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body class="auth-body">
+
+  <aside class="auth-aside">
+    <a href="index.html" class="brand">
+      <img src="assets/images/Regen.png" class="brand-img" alt="Logo RE:GEN" width="42" height="42">
+      <span class="brand-word">RE<em style="color:var(--lime)">:</em>GEN</span>
+    </a>
+    <div class="auth-aside-quote">
+      <h2>Mulai perjalanan<br><span>memulihkan</span>mu.</h2>
+      <p>Bergabunglah bersama mereka yang mengubah sampah sehari-hari menjadi dampak lingkungan yang terukur.</p>
+      <div class="auth-aside-benefits">
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Pantau dampakmu</div>
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Kumpulkan Green Points</div>
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Ikut tantangan</div>
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Temukan titik drop</div>
+      </div>
+    </div>
+    <div class="auth-aside-rings" aria-hidden="true"></div>
+    <div style="font-size:0.85rem;opacity:0.6">© 2026 RE:GEN</div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-logo-mobile">
+        <a href="index.html" class="brand" style="text-decoration:none">
+          <img src="assets/images/Regen.png" class="brand-img" alt="Logo RE:GEN" width="42" height="42">
+          <span class="brand-word">RE:GEN</span>
+        </a>
+      </div>
+
+      <span class="eyebrow">Mulai</span>
+      <h2>Buat Akunmu.</h2>
+      <p>Hanya butuh satu menit untuk mulai memberi dampak.</p>
+
+      <form id="registerForm" novalidate>
+        <div class="form-group" id="fg-name">
+          <label class="form-label" for="fullname">Nama Lengkap</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="fullname" class="form-control" placeholder="Nama lengkapmu" autocomplete="name">
+          </div>
+          <div class="form-error-msg" id="err-name">Tulis nama lengkapmu.</div>
+        </div>
+
+        <div class="form-group" id="fg-email">
+          <label class="form-label" for="email">Email</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" id="email" class="form-control" placeholder="nama@email.com" autocomplete="email">
+          </div>
+          <div class="form-error-msg" id="err-email">Masukkan email yang valid.</div>
+        </div>
+
+        <div class="form-group" id="fg-pass">
+          <label class="form-label" for="password">Kata Sandi</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="password" class="form-control" placeholder="Buat kata sandi" autocomplete="new-password">
+            <button type="button" class="toggle-pass" data-target="password" aria-label="Tampilkan kata sandi"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div class="form-error-msg" id="err-pass">Kata sandi minimal 6 karakter.</div>
+          <div class="strength"><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="form-group" id="fg-confirm">
+          <label class="form-label" for="confirm">Ulangi Kata Sandi</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="confirm" class="form-control" placeholder="Ketik ulang kata sandi" autocomplete="new-password">
+            <button type="button" class="toggle-pass" data-target="confirm" aria-label="Tampilkan kata sandi"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div class="form-error-msg" id="err-confirm">Kata sandi tidak cocok.</div>
+        </div>
+
+        <div class="form-group" id="fg-terms">
+          <label class="checkbox" style="align-items:flex-start">
+            <input type="checkbox" id="terms" style="margin-top:3px"> Saya setuju dengan syarat dan ketentuan RE:GEN.
+          </label>
+          <div class="form-error-msg" id="err-terms" style="display:none">Centang kotak untuk melanjutkan.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="regBtn"><i class="fa-solid fa-leaf"></i> Buat Akun</button>
+      </form>
+
+      <p class="auth-switch">Sudah punya akun? <a href="login.html">Masuk</a></p>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initToTop();
+
+      // toggle tampilkan kata sandi
+      document.querySelectorAll(".toggle-pass").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const target = document.getElementById(this.getAttribute("data-target"));
+          const show = target.type === "password";
+          target.type = show ? "text" : "password";
+          this.innerHTML = show ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+        });
+      });
+
+      // indikator kekuatan kata sandi
+      const pass = document.getElementById("password");
+      const strengthBars = document.querySelectorAll(".strength span");
+      pass.addEventListener("input", () => {
+        const v = pass.value;
+        let score = 0;
+        if (v.length >= 6) score++;
+        if (v.length >= 10) score++;
+        if (/[0-9]/.test(v) && /[a-zA-Z]/.test(v)) score++;
+        if (/[^A-Za-z0-9]/.test(v)) score++;
+        strengthBars.forEach((b, i) => {
+          b.style.background = i < score ? (score >= 3 ? "var(--green)" : score === 2 ? "#D97706" : "#DC2626") : "var(--off-white-2)";
+        });
+      });
+
+      const form = document.getElementById("registerForm");
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        const name = document.getElementById("fullname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const passv = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm").value;
+        const terms = document.getElementById("terms").checked;
+        let valid = true;
+
+        const setInvalid = (id, ok) => {
+          document.getElementById("fg-" + id).classList.toggle("invalid", !ok);
+          if (!ok) valid = false;
+        };
+        setInvalid("name", name.length >= 2);
+        setInvalid("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        setInvalid("pass", passv.length >= 6);
+        setInvalid("confirm", confirm === passv && confirm.length > 0);
+        const termsErr = document.getElementById("err-terms");
+        termsErr.style.display = terms ? "none" : "block";
+        if (!terms) valid = false;
+
+        if (!valid) return;
+
+        const btn = document.getElementById("regBtn");
+        btn.classList.add("loading");
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Membuat akun...';
+
+        setTimeout(() => {
+          const user = {
+            ...defaultUser,
+            name,
+            email,
+            level: "Eco Starter"
+          };
+          sessions.login(user);
+          openModal({
+            icon: "fa-seedling",
+            title: "Selamat datang di RE:GEN!",
+            text: "Akunmu siap. Mulai kumpulkan Green Points dan beri dampak hari ini.",
+            confirmText: "Ke Dashboard",
+            onConfirm: () => { window.location.href = "dashboard.html"; }
+          });
+        }, 1100);
+      });
+    });
+  </script>
+</body>
+</html>

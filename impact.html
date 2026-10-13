@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pantau dampak lingkungan nyatamu bersama RE:GEN.">
+  <title>Dampak — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero wide">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><span class="current">Dampak</span>
+      </nav>
+      <h1 class="ph-title">Dampakmu <span class="accent">Nyata.</span></h1>
+      <p class="ph-desc">Inilah kontribusi terukurmu untuk planet yang lebih bersih, diperbarui di setiap setoran.</p>
+
+      <div style="margin-top:36px">
+        <div class="impact-stat reveal" style="max-width:460px;background:var(--grad-green);border-color:transparent;color:#fff">
+          <div class="im-icon" style="background:rgba(255,255,255,0.15);color:var(--lime)"><i class="fa-solid fa-weight-hanging"></i></div>
+          <div class="im-num" style="color:#fff"><span data-count="24.8" data-dec="1">0</span> KG</div>
+          <p style="color:rgba(255,255,255,0.8);font-weight:700">Sampah Dipulihkan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:10px">
+    <div class="container">
+      <!-- KPIs -->
+      <div class="impact-stats">
+        <div class="impact-stat reveal"><div class="im-icon"><i class="fa-solid fa-tree"></i></div><div class="im-num"><span data-count="12">0</span></div><p>Setara Pohon</p></div>
+        <div class="impact-stat reveal"><div class="im-icon"><i class="fa-solid fa-boxes-stacked"></i></div><div class="im-num"><span data-count="186">0</span></div><p>Barang Teralihkan</p></div>
+        <div class="impact-stat reveal"><div class="im-icon"><i class="fa-solid fa-star"></i></div><div class="im-num"><span data-count="742">0</span></div><p>Green Points</p></div>
+        <div class="impact-stat reveal"><div class="im-icon"><i class="fa-solid fa-recycle"></i></div><div class="im-num"><span data-count="98">0</span><span>%</span></div><p>Terpilah dengan Benar</p></div>
+      </div>
+
+      <div class="impact-visual">
+        <!-- Chart -->
+        <div class="im-chart reveal reveal-left">
+          <h4><i class="fa-solid fa-chart-column" style="color:var(--green)"></i> Pemulihan Sampah (KG)</h4>
+          <div class="chart-bars">
+            <div class="chart-col"><div class="bar" style="height:30%"></div><div class="mv">4,2</div><div class="ml">Jan</div></div>
+            <div class="chart-col"><div class="bar" style="height:48%"></div><div class="mv">6,8</div><div class="ml">Feb</div></div>
+            <div class="chart-col"><div class="bar" style="height:62%"></div><div class="mv">8,1</div><div class="ml">Mar</div></div>
+            <div class="chart-col"><div class="bar" style="height:78%"></div><div class="mv">10,4</div><div class="ml">Apr</div></div>
+            <div class="chart-col"><div class="bar" style="height:92%"></div><div class="mv">12,6</div><div class="ml">Mei</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--soft-gray);font-weight:700;padding-top:12px;border-top:1px solid var(--line)">
+            <span><i class="fa-solid fa-arrow-trend-up" style="color:var(--green)"></i> +200% dibanding Jan</span>
+            <span>Data demo</span>
+          </div>
+        </div>
+
+        <!-- Journey timeline -->
+        <div class="journey reveal reveal-right">
+          <h4><i class="fa-solid fa-route" style="color:var(--green)"></i> Perjalanan Lingkunganmu</h4>
+          <p>Setiap pencapaian berarti.</p>
+          <div class="journey-list" id="journeyList"></div>
+        </div>
+      </div>
+
+      <!-- Breakdown -->
+      <div class="app-grid cols-2" style="margin-top:60px">
+        <div class="app-card">
+          <div class="ac-title">Rincian Sampah per Jenis</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div class="reward-status"><span>Plastik</span><strong>42% · 10,4 kg</strong></div>
+              <div class="progress-track"><div class="progress-fill" data-progress="42"></div></div>
+            </div>
+            <div>
+              <div class="reward-status"><span>Kertas</span><strong>28% · 6,9 kg</strong></div>
+              <div class="progress-track"><div class="progress-fill" data-progress="28"></div></div>
+            </div>
+            <div>
+              <div class="reward-status"><span>Organik</span><strong>18% · 4,5 kg</strong></div>
+              <div class="progress-track"><div class="progress-fill" data-progress="18"></div></div>
+            </div>
+            <div>
+              <div class="reward-status"><span>Kaca & Logam</span><strong>12% · 3,0 kg</strong></div>
+              <div class="progress-track"><div class="progress-fill" data-progress="12"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="ac-title">Penghindaran Karbon</div>
+          <div style="text-align:center;padding:20px 0">
+            <div class="kpi-num" style="font-size:3.4rem"><i class="fa-solid fa-cloud" style="color:var(--green)"></i> 18.6</div>
+            <div class="kpi-label" style="font-size:15px">KG CO₂ setara yang dihindari</div>
+            <div style="margin-top:18px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
+              <span class="tag green"><i class="fa-solid fa-car"></i> ~ 78 km perjalanan mobil</span>
+              <span class="tag lime"><i class="fa-solid fa-charging-station"></i> 1,2 bulan listrik</span>
+            </div>
+          </div>
+          <p class="problem-note" style="text-align:center">Perhitungan demo ilustratif.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "impact");
+      renderFooter("footer");
+
+      document.getElementById("journeyList").innerHTML = journeyTimeline.map(j => `
+        <div class="journey-item ${j.done ? "done" : ""} ${j.current ? "current" : ""}">
+          <div class="j-dot"></div>
+          <div class="j-title">${j.title}</div>
+          <div class="j-date">${j.date}</div>
+        </div>`).join("");
+    });
+  </script>
+</body>
+</html>

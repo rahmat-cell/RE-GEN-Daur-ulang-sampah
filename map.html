@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Temukan titik drop RE:GEN terdekatmu pada peta interaktif.">
+  <title>Temukan Titik Drop-mu — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><span class="current">Drop Points</span>
+      </nav>
+      <h1 class="ph-title">Temukan <span class="accent">Drop Point-mu.</span></h1>
+      <p class="ph-desc">Lokasi hub RE:GEN terdekat, cek jenis sampah yang diterima dan jam operasionalnya.</p>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:8px">
+    <div class="container">
+      <div class="map-layout">
+        <div class="map-sidebar">
+          <div class="explore-toolbar" style="margin-bottom:0">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="dpSearch" placeholder="Cari titik drop..." aria-label="Cari titik drop">
+            </div>
+          </div>
+          <div class="filter-group" id="dpFilters">
+            <button class="filter-chip active" data-filter="all">Semua</button>
+            <button class="filter-chip" data-filter="plastic">Plastik</button>
+            <button class="filter-chip" data-filter="paper">Kertas</button>
+            <button class="filter-chip" data-filter="glass">Kaca</button>
+            <button class="filter-chip" data-filter="metal">Logam</button>
+            <button class="filter-chip" data-filter="organic">Organik</button>
+          </div>
+          <div id="dpList"></div>
+        </div>
+        <div class="map-canvas">
+          <div id="map"></div>
+          <div class="map-tip"><i class="fa-solid fa-circle-info"></i> Klik penanda atau item daftar untuk melihat detail</div>
+        </div>
+      </div>
+      <p class="problem-note" style="margin-top:20px;color:var(--soft-gray)">* Lokasi yang ditampilkan adalah data demo ilustratif untuk prototipe, bukan alamat sebenarnya.</p>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "explore");
+      renderFooter("footer");
+
+      const listEl = document.getElementById("dpList");
+      let filter = "all";
+
+      function renderList() {
+        const t = document.getElementById("dpSearch").value.toLowerCase();
+        const list = dropPoints.filter(dp => {
+          const okCat = filter === "all" || dp.cats.includes(filter);
+          const okTerm = !t || dp.name.toLowerCase().includes(t) || dp.address.toLowerCase().includes(t);
+          return okCat && okTerm;
+        });
+        listEl.innerHTML = list.map(dp => `
+          <div class="drop-point-item" data-dp-id="${dp.id}">
+            <div class="dp-dot"><i class="fa-solid fa-leaf"></i></div>
+            <div class="dp-info">
+              <div class="n">${dp.name}</div>
+              <div class="d">${dp.address} · ${dp.distance}</div>
+              <div class="cats">${dp.cats.map(c => `<span>${CATEGORY_META[c].label}</span>`).join("")}</div>
+            </div>
+            <div style="text-align:right">
+              <span class="dp-status ${dp.status}"><span class="d"></span>${dp.status === "open" ? "Buka" : "Ramai"}</span>
+              <div style="font-size:11px;color:var(--soft-gray);margin-top:4px">${dp.hours}</div>
+            </div>
+          </div>`).join("") || '<div class="empty-state"><i class="fa-solid fa-map-pin"></i><h4>Tidak ada titik ditemukan</h4></div>';
+
+        listEl.querySelectorAll(".drop-point-item").forEach(item => {
+          item.addEventListener("click", function() {
+            const id = parseInt(this.getAttribute("data-dp-id"), 10);
+            document.querySelectorAll(".drop-point-item").forEach(el => el.classList.remove("active"));
+            this.classList.add("active");
+            if (window.__mapFocus) window.__mapFocus(id);
+          });
+        });
+      }
+
+      // fokus peta setelah leaflet init - expose via window
+      document.getElementById("dpSearch").addEventListener("input", renderList);
+      document.querySelectorAll("#dpFilters .filter-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll("#dpFilters .filter-chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          filter = chip.getAttribute("data-filter");
+          renderList();
+        });
+      });
+
+      // tunggu map init lalu wire list
+      renderList();
+    });
+  </script>
+</body>
+</html>

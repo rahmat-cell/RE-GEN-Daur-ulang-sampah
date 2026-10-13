@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Masuk ke RE:GEN dan lanjutkan perjalananmu memulihkan lingkungan.">
+  <title>Masuk — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body class="auth-body">
+
+  <aside class="auth-aside">
+    <a href="index.html" class="brand">
+      <img src="assets/images/Regen.png" class="brand-img" alt="Logo RE:GEN" width="42" height="42">
+      <span class="brand-word">RE<em style="color:var(--lime)">:</em>GEN</span>
+    </a>
+    <div class="auth-aside-quote">
+      <h2>Selamat datang kembali.<br>Masa depan yang <span>lebih hijau</span> menunggumu.</h2>
+      <p>Lanjutkan dari tempat terakhirmu. Setiap tetes sampah yang kamu pilah membawa kita makin dekat pada dampak yang nyata.</p>
+      <div class="auth-aside-benefits">
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Pantau dampak lingkunganmu</div>
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Kumpulkan & pakai Green Points</div>
+        <div class="auth-benefit"><i class="fa-solid fa-check"></i> Ikut tantangan komunitas</div>
+      </div>
+    </div>
+    <div class="auth-aside-rings" aria-hidden="true"></div>
+    <div style="font-size:0.85rem;opacity:0.6">© 2026 RE:GEN</div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-logo-mobile">
+        <a href="index.html" class="brand" style="text-decoration:none">
+          <img src="assets/images/Regen.png" class="brand-img" alt="Logo RE:GEN" width="42" height="42">
+          <span class="brand-word">RE:GEN</span>
+        </a>
+      </div>
+
+      <span class="eyebrow">Masuk</span>
+      <h2>Senang melihatmu<br>kembali, Regenerator.</h2>
+      <p>Buka dashboard, poin, dan dampakmu.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group" id="fg-email">
+          <label class="form-label" for="email">Email</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" id="email" class="form-control" placeholder="nama@email.com" autocomplete="email">
+          </div>
+          <div class="form-error-msg" id="err-email">Masukkan email yang valid.</div>
+        </div>
+
+        <div class="form-group" id="fg-pass">
+          <label class="form-label" for="password">Kata Sandi</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="password" class="form-control" placeholder="Masukkan kata sandi" autocomplete="current-password">
+            <button type="button" class="toggle-pass" aria-label="Tampilkan kata sandi"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div class="form-error-msg" id="err-pass">Kata sandi wajib diisi.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox">
+            <input type="checkbox" id="remember"> Ingat saya
+          </label>
+          <a href="#" class="form-link" id="forgot">Lupa kata sandi?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Lanjut</button>
+      </form>
+
+      <p class="auth-switch">Baru di RE:GEN? <a href="register.html">Buat akun</a></p>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initToTop();
+
+      // toggle tampilkan kata sandi
+      document.querySelector(".toggle-pass").addEventListener("click", function() {
+        const input = document.getElementById("password");
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        this.innerHTML = show ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+      });
+
+      document.getElementById("forgot").addEventListener("click", e => {
+        e.preventDefault();
+        showToast("Tautan pemulihan terkirim ke emailmu (demo).", "info", "fa-envelope");
+      });
+
+      const form = document.getElementById("loginForm");
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const pass = document.getElementById("password").value;
+        let valid = true;
+
+        const fgEmail = document.getElementById("fg-email");
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        fgEmail.classList.toggle("invalid", !emailOk);
+        if (!emailOk) valid = false;
+
+        const fgPass = document.getElementById("fg-pass");
+        const passOk = pass.length >= 6;
+        fgPass.classList.toggle("invalid", !passOk);
+        if (!passOk) valid = false;
+
+        if (!valid) return;
+
+        const btn = document.getElementById("loginBtn");
+        btn.classList.add("loading");
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
+
+        setTimeout(() => {
+          const user = sessions.user() || { ...defaultUser, email };
+          user.email = email;
+          sessions.login(user);
+          showToast("Selamat datang kembali, " + (user.name || "Regenerator") + "!", "success", "fa-leaf");
+          const next = new URLSearchParams(window.location.search).get("next");
+          setTimeout(() => {
+            window.location.href = next || "dashboard.html";
+          }, 800);
+        }, 900);
+      });
+
+      ["email", "password"].forEach(id => {
+        document.getElementById(id).addEventListener("input", () => {
+          document.getElementById("fg-" + (id === "email" ? "email" : "pass")).classList.remove("invalid");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

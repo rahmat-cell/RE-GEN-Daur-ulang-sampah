@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detail sampah RE:GEN — pelajari cara memilah, membersihkan, dan dampak dari kontribusimu.">
+  <title>Detail Sampah — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><a href="explore.html">Penjelajah Sampah</a><i class="fa-solid fa-chevron-right"></i><span class="current" id="crumbName">Detail</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:6px">
+    <div class="container">
+      <div class="detail-layout">
+        <!-- Media -->
+        <div class="detail-media" id="detailMedia">
+          <i class="fa-solid fa-bottle-water" id="detailIcon"></i>
+        </div>
+
+        <!-- Content -->
+        <div>
+          <span class="tag green" id="detailCatTag"><i class="fa-solid fa-layer-group"></i> Plastik</span>
+          <h1 class="detail-title" id="detailName">Botol PET</h1>
+
+          <div class="detail-points">
+            <span class="pt"><i class="fa-solid fa-star"></i> <span id="detailPoints">+20 GP / KG</span></span>
+            <span class="pt"><i class="fa-solid fa-rotate"></i> <span id="detailProcess">Daur ulang</span></span>
+          </div>
+
+          <p class="detail-desc" id="detailImpact">Mengurangi sampah plastik dan menghemat sumber daya.</p>
+
+          <div class="detail-cta">
+            <a href="map.html" class="btn btn-primary"><i class="fa-solid fa-location-dot"></i> Temukan Titik Drop</a>
+            <button class="btn btn-ghost" id="addToGuide"><i class="fa-solid fa-bookmark"></i> Simpan ke Panduan Sampahku</button>
+          </div>
+
+          <!-- How to sort -->
+          <div class="detail-block">
+            <h3><span class="db-icon"><i class="fa-solid fa-shuffle"></i></span> Cara Memilah</h3>
+            <div class="detail-step-list">
+              <div class="detail-step">
+                <div class="ds-num">1</div>
+                <div><div class="ds-title">Pisahkan sesuai jenis</div><div class="ds-text" id="detailSort">Pisahkan barang ini dari material lain.</div></div>
+              </div>
+              <div class="detail-step">
+                <div class="ds-num">2</div>
+                <div><div class="ds-title">Bersihkan & siapkan</div><div class="ds-text" id="detailClean">Bilas dan hilangkan sisa-sisa yang menempel.</div></div>
+              </div>
+              <div class="detail-step">
+                <div class="ds-num">3</div>
+                <div><div class="ds-title">Setelah dikumpulkan</div><div class="ds-text" id="detailAfter">Sampahmu lanjut ke proses pengolahan.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Impact -->
+          <div class="detail-block">
+            <h3><span class="db-icon"><i class="fa-solid fa-earth-americas"></i></span> Dampak Nyata</h3>
+            <div class="detail-impact-grid" id="detailImpactGrid"></div>
+          </div>
+
+          <!-- Drop points -->
+          <div class="detail-block">
+            <h3><span class="db-icon"><i class="fa-solid fa-map-location-dot"></i></span> Drop Points Terdekat</h3>
+            <div class="drop-point-list" id="detailDropPoints"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related waste -->
+  <section class="section" style="padding-top:30px">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Terus Jelajahi</span>
+        <h2 class="section-title">Sampah <span class="accent">Lainnya.</span></h2>
+      </div>
+      <div class="waste-grid stagger" id="relatedGrid"></div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "explore");
+      renderFooter("footer");
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id") || "pet-bottle";
+      const item = wasteData.find(w => w.id === id) || wasteData[0];
+
+      const cat = CATEGORY_META[item.category];
+
+      document.title = item.name + " — RE:GEN";
+      document.getElementById("crumbName").textContent = item.name;
+      document.getElementById("detailName").textContent = item.name;
+      document.getElementById("detailIcon").className = "fa-solid " + item.icon;
+      document.getElementById("detailCatTag").innerHTML = `<i class="fa-solid fa-layer-group"></i> ${cat.label}`;
+      document.getElementById("detailPoints").textContent = "+" + item.points + " GP / KG";
+      document.getElementById("detailProcess").textContent = item.process;
+      document.getElementById("detailImpact").textContent = item.impact;
+      document.getElementById("detailSort").textContent = item.sortSteps;
+      document.getElementById("detailClean").textContent = item.cleanSteps;
+      document.getElementById("detailAfter").textContent = item.afterSteps;
+
+      // grid dampak
+      document.getElementById("detailImpactGrid").innerHTML = item.impacts.map(im => `
+        <div class="detail-impact">
+          <div class="di-icon"><i class="fa-solid ${im.icon}"></i></div>
+          <div class="di-num">${im.num}</div>
+          <div class="di-label">${im.label}</div>
+        </div>`).join("");
+
+      // drop points
+      const relevant = dropPoints.filter(dp => dp.cats.includes(item.category));
+      const shown = relevant.length ? relevant : dropPoints.slice(0, 2);
+      document.getElementById("detailDropPoints").innerHTML = shown.map(dp => `
+        <div class="drop-point" onclick="location.href='map.html'">
+          <div class="dp-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="dp-body">
+            <div class="dp-name">${dp.name}</div>
+            <div class="dp-meta">${dp.address} · ${dp.distance}</div>
+          </div>
+          <span class="dp-status ${dp.status}">${dp.status === "open" ? "Buka" : "Ramai"}</span>
+        </div>`).join("");
+
+      // add to guide
+      document.getElementById("addToGuide").addEventListener("click", function() {
+        this.classList.toggle("btn-primary");
+        this.classList.toggle("btn-ghost");
+        const added = this.classList.contains("btn-primary");
+        this.innerHTML = added
+          ? '<i class="fa-solid fa-check"></i> Tersimpan di Panduan'
+          : '<i class="fa-solid fa-bookmark"></i> Simpan ke Panduan Sampahku';
+        showToast(added ? "Tersimpan ke panduan sampahmu!" : "Dihapus dari panduanmu.", added ? "success" : "info");
+      });
+
+      // terkait: kategori yang sama lalu lainnya
+      const related = wasteData.filter(w => w.category === item.category && w.id !== item.id);
+      const others = wasteData.filter(w => w.category !== item.category).slice(0, 3 - related.length);
+      const relList = [...related, ...others].slice(0, 3);
+      document.getElementById("relatedGrid").innerHTML = relList.map(w => {
+        const c = CATEGORY_META[w.category];
+        return `
+          <div class="waste-card">
+            <div class="waste-card-media">
+              <span class="cat-pill" style="background:rgba(255,255,255,0.92)">${c.label}</span>
+              <i class="fa-solid ${w.icon}" style="color:var(--green)"></i>
+            </div>
+            <div class="waste-card-body">
+              <h4>${w.name}</h4>
+              <div class="waste-meta">
+                <div class="m"><span class="m-label">Poin</span><span class="m-value">+${w.points} GP</span></div>
+                <div class="m"><span class="m-label">Proses</span><span class="m-value plain">${w.process}</span></div>
+              </div>
+              <a href="detail.html?id=${w.id}" class="btn btn-ghost btn-sm">Lihat Detail <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>`;
+      }).join("");
+    });
+  </script>
+</body>
+</html>

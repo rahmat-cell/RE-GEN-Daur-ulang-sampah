@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Profil RE:GEN-mu — level, poin, streak, dan prestasi.">
+  <title>Profil — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="app-shell">
+    <div class="container app-body">
+      <!-- Sidebar -->
+      <aside class="app-sidebar panel">
+        <a href="dashboard.html" class="side-link"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+        <a href="profile.html" class="side-link active"><i class="fa-solid fa-user"></i> Profil</a>
+        <a href="challenges.html" class="side-link"><i class="fa-solid fa-trophy"></i> Tantangan <span class="pill">1</span></a>
+        <a href="impact.html" class="side-link"><i class="fa-solid fa-chart-line"></i> Dampak</a>
+        <a href="rewards.html" class="side-link"><i class="fa-solid fa-gift"></i> Reward</a>
+        <a href="map.html" class="side-link"><i class="fa-solid fa-map-location-dot"></i> Drop Points</a>
+        <a href="explore.html" class="side-link"><i class="fa-solid fa-recycle"></i> Jelajah</a>
+        <a href="#" class="side-link" id="sideLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+      </aside>
+
+      <main class="app-content">
+        <div class="profile-head">
+          <div class="profile-avatar" id="avatarLetter">A</div>
+          <div class="profile-id">
+            <h3 id="profName">Alex Regenerator</h3>
+            <span class="level"><i class="fa-solid fa-leaf"></i> <span id="profLevel">Penjelajah Lingkungan</span></span>
+            <div class="joined" id="profJoined">Bergabung April 2026</div>
+          </div>
+          <div class="profile-stats">
+            <div class="profile-stat"><div class="ps-num" id="profPoints">0</div><div class="ps-label">Green Points</div></div>
+            <div class="profile-stat"><div class="ps-num" id="profStreak">0 <small>hari</small></div><div class="ps-label">Streak Aktif</div></div>
+            <div class="profile-stat"><div class="ps-num">24.8 <small>kg</small></div><div class="ps-label">Dipulihkan</div></div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="app-card" style="margin-bottom:26px">
+          <div class="ac-title">Prestasi</div>
+          <div style="display:flex;gap:22px;flex-wrap:wrap;justify-content:flex-start" id="badgesRow"></div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="app-grid cols-3">
+          <div class="app-card">
+            <div class="ac-title">Progres Level</div>
+            <div class="ring-box" id="levelRing" style="margin:0 auto 18px;width:120px;height:120px"></div>
+            <div style="text-align:center">
+              <div class="reward-status"><span>Saat ini</span><strong>Penjelajah Lingkungan</strong></div>
+              <div class="reward-status"><span>Level Berikutnya</span><strong id="nextLevel">Penjaga Bumi</strong></div>
+              <div class="progress-track"><div class="progress-fill" data-progress="74"></div></div>
+            </div>
+          </div>
+
+          <div class="app-card">
+            <div class="ac-title">Green Points</div>
+            <div class="kpi-num" style="font-size:3rem"><span id="profPoints2">0</span></div>
+            <div class="kpi-label" style="margin:6px 0 16px">Terkumpul seumur hidup</div>
+            <a href="rewards.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-gift"></i> Tukar Poin</a>
+          </div>
+
+          <div class="app-card">
+            <div class="ac-title">Panduan Sampahku</div>
+            <div style="display:flex;flex-direction:column;gap:10px" id="guideList"></div>
+            <a href="explore.html" class="btn btn-ghost btn-sm" style="margin-top:14px"><i class="fa-solid fa-plus"></i> Jelajahi Sampah Lainnya</a>
+          </div>
+        </div>
+
+        <!-- Recent badges -->
+        <div class="app-card" style="margin-top:26px">
+          <div class="ac-title">Aktivitas Terbaru</div>
+          <div class="activity-list" id="profActivity"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!requireLogin()) return;
+      renderNavbar("navbar", "profile");
+      renderFooter("footer");
+
+      const user = sessions.user() || defaultUser;
+      document.getElementById("profName").textContent = user.name || "Alex Regenerator";
+      document.getElementById("avatarLetter").textContent = (user.name || "A").trim().charAt(0).toUpperCase();
+      document.getElementById("profLevel").textContent = user.level || "Penjelajah Lingkungan";
+      document.getElementById("profJoined").textContent = user.joined || "Bergabung April 2026";
+      document.getElementById("profPoints").textContent = user.points;
+      document.getElementById("profPoints2").textContent = user.points;
+      document.getElementById("profStreak").innerHTML = user.streak + " <small>hari</small>";
+
+      // badge
+      document.getElementById("badgesRow").innerHTML = achievements.map(b => `
+        <div class="badge-tile ${b.unlocked ? "" : "locked"}" title="${b.desc}">
+          <div class="badge-circle"><i class="fa-solid ${b.icon}"></i></div>
+          <div class="b-name">${b.name}</div>
+        </div>`).join("");
+
+      // ring level
+      drawRing(document.getElementById("levelRing"), 74);
+
+      // label level berikutnya
+      document.getElementById("nextLevel").textContent = user.points >= 1000 ? "Penjaga Bumi" : "Penjelajah Lingkungan";
+
+      // panduan (sampah terkini)
+      const guide = ["Botol PET", "Kardus", "Kaleng Aluminium"];
+      document.getElementById("guideList").innerHTML = guide.map(g => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--off-white-2);border-radius:12px">
+          <i class="fa-solid fa-bookmark" style="color:var(--green)"></i>
+          <strong style="font-size:14px;font-family:var(--font-head)">${g}</strong>
+        </div>`).join("");
+
+      renderActivities("profActivity", activities.slice(0, 3));
+
+      document.getElementById("sideLogout").addEventListener("click", e => {
+        e.preventDefault();
+        doLogout();
+      });
+    });
+  </script>
+</body>
+</html>

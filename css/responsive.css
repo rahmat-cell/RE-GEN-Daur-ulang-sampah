@@ -1,0 +1,192 @@
+/* ==========================================================================
+   RE:GEN — Responsive Stylesheet
+   Breakpoints: desktop 1440, tablet 820, mobile 390
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   LARGE DESKTOP
+   -------------------------------------------------------------------------- */
+@media (min-width: 1600px) {
+  .hero-title { font-size: 4.6rem; }
+}
+
+/* --------------------------------------------------------------------------
+   TABLET & BELOW (≤ 1100px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .solution-grid { grid-template-columns: repeat(2, 1fr); }
+  .waste-grid { grid-template-columns: repeat(3, 1fr); }
+  .how-journey { grid-template-columns: 1fr; gap: 26px; }
+  .how-step { display: grid; grid-template-columns: auto 1fr; gap: 20px; text-align: left; align-items: center; }
+  .how-step .step-dot { margin: 0; }
+  .how-step p { margin: 0; }
+  .how-arrow { transform: rotate(90deg); justify-self: center; width: fit-content; }
+
+  .challenges-grid { grid-template-columns: repeat(2, 1fr); }
+  .impact-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .app-body { grid-template-columns: 1fr; }
+  .app-sidebar {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 4px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .side-link { white-space: nowrap; }
+
+  .map-layout { grid-template-columns: 1fr; height: auto; }
+  .map-canvas { height: 460px; }
+
+  .detail-layout { grid-template-columns: 1fr; }
+  .detail-media { position: static; height: 320px; }
+
+  .greenpoints-grid { grid-template-columns: 1fr; gap: 40px; }
+  .impact-visual { grid-template-columns: 1fr; gap: 48px; }
+
+  .auth-aside { width: 40%; padding: 40px; }
+}
+
+/* --------------------------------------------------------------------------
+   TABLET (≤ 900px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .container { padding: 0 26px; }
+  .section { padding: 84px 0; }
+
+  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero { padding-top: calc(var(--header-h) + 20px); }
+  .flux-card { max-width: 440px; }
+  .fc-1 { left: -4%; }
+  .fc-3 { left: 4%; }
+
+  .problem-feature { grid-template-columns: 1fr; }
+
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+
+  .auth-aside { display: none; }
+  .auth-main { padding: 40px 26px; }
+  .auth-card .auth-logo-mobile { display: flex; margin-bottom: 40px; }
+  .auth-card .auth-logo-mobile .brand-word { color: var(--green-deep); }
+
+  .app-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+
+  .profile-head { flex-wrap: wrap; }
+  .profile-stats { margin-left: 0; }
+
+  .detail-impact-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE (≤ 680px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 680px) {
+  .container { padding: 0 20px; }
+  .section { padding: 68px 0; }
+
+  /* Navbar */
+  .nav-links { display: none; }
+  .nav-actions .btn-link { display: none; }
+  .nav-toggle { display: grid; }
+  .nav-actions .btn-primary { padding: 10px 16px; font-size: 13px; }
+
+  /* Hero */
+  .hero-sub { font-size: 1.02rem; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn { width: 100%; }
+  .float-card { padding: 11px 14px; }
+  .fc-1 { top: -8px; left: -2px; }
+  .fc-2 { top: 30%; right: -2px; }
+  .float-card .f-value { font-size: 15px; }
+  .fc-3 { bottom: -6px; left: 0; }
+  .flux-title, .flux-live { font-size: 13px; }
+
+  /* Headings */
+  .section-title { font-size: 1.9rem; }
+  .section-head.center .section-desc { font-size: 0.98rem; }
+
+  /* Solution */
+  .solution-grid { grid-template-columns: 1fr; }
+
+  /* Waste */
+  .waste-grid { grid-template-columns: 1fr; }
+  .explorer-tabs { gap: 8px; }
+  .explorer-tab { padding: 9px 16px; font-size: 13px; }
+
+  /* Greenpoints */
+  .gp-panel { padding: 26px; }
+  .gp-balance { gap: 16px; }
+  .gp-balance .gp-num { font-size: 3rem; }
+
+  /* Impact */
+  .impact-stats { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .impact-stat { padding: 26px 18px; }
+  .impact-stat .im-num { font-size: 2.1rem; }
+  .chart-bars { gap: 12px; }
+
+  /* Challenges */
+  .challenges-grid { grid-template-columns: 1fr; }
+
+  /* Problem stats */
+  .problem-stats { grid-template-columns: 1fr; gap: 18px; }
+  .problem-stat .num { font-size: 2.8rem; }
+
+  /* CTA */
+  .cta .cta-actions { flex-direction: column; }
+  .cta .cta-actions .btn { width: 100%; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 34px; }
+  .footer-bottom { justify-content: center; text-align: center; }
+
+  /* Forms */
+  .form-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+
+  /* App */
+  .app-hero { padding: 30px 26px; }
+  .app-grid.cols-2, .app-grid.cols-3, .app-grid.cols-4 { grid-template-columns: 1fr; }
+  .ring-wrap { flex-direction: column; align-items: flex-start; }
+
+  /* Detail */
+  .detail-cta { flex-direction: column; }
+  .detail-cta .btn { width: 100%; }
+  .detail-media { height: 240px; font-size: 90px; }
+  .detail-impact-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .detail-impact { padding: 16px 10px; }
+  .detail-impact .di-num { font-size: 1.3rem; }
+
+  /* Challenge item */
+  .challenge-item { flex-direction: column; padding: 24px; }
+  .challenge-days { flex-wrap: wrap; }
+
+  /* Map */
+  .map-canvas { height: 380px; }
+  .map-tip { white-space: normal; text-align: center; width: 90%; }
+
+  /* Profile */
+  .profile-head { flex-direction: column; text-align: center; gap: 20px; }
+  .profile-avatar { width: 90px; height: 90px; font-size: 2.1rem; }
+  .profile-stats { justify-content: center; gap: 24px; }
+  .profile-stat .ps-num { font-size: 1.5rem; }
+
+  /* Footer scrollbar / to-top */
+  .to-top { bottom: 18px; left: 18px; }
+
+  /* Crumbs */
+  .crumbs { font-size: 12px; }
+}
+
+/* --------------------------------------------------------------------------
+   SMALL MOBILE (≤ 400px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 400px) {
+  .hero-title { font-size: 2.3rem; }
+  .float-card { display: none; }
+  .flux-inner { padding: 16px; }
+  .detail-impact-grid { grid-template-columns: 1fr; }
+  .impact-stats { grid-template-columns: 1fr; }
+  .app-hero { flex-direction: column; align-items: flex-start; }
+}

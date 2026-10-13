@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard RE:GEN-mu — Green Points, aktivitas, dan dampak dalam sekali lihat.">
+  <title>Dashboard — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="app-shell">
+    <div class="container app-body">
+      <!-- Sidebar -->
+      <aside class="app-sidebar panel">
+        <a href="dashboard.html" class="side-link active"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+        <a href="profile.html" class="side-link"><i class="fa-solid fa-user"></i> Profil</a>
+        <a href="challenges.html" class="side-link"><i class="fa-solid fa-trophy"></i> Tantangan <span class="pill">1</span></a>
+        <a href="impact.html" class="side-link"><i class="fa-solid fa-chart-line"></i> Dampak</a>
+        <a href="rewards.html" class="side-link"><i class="fa-solid fa-gift"></i> Reward</a>
+        <a href="map.html" class="side-link"><i class="fa-solid fa-map-location-dot"></i> Drop Points</a>
+        <a href="explore.html" class="side-link"><i class="fa-solid fa-recycle"></i> Jelajah</a>
+        <a href="#" class="side-link" id="sideLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+      </aside>
+
+      <!-- Main content -->
+      <main class="app-content">
+        <div class="app-hero">
+          <div>
+            <span class="eyebrow" style="color:var(--lime);margin-bottom:10px">Selamat datang kembali</span>
+            <h2>Halo, <span id="dashName">Regenerator</span> 👋</h2>
+            <p>Inilah kabar terkini tentang dampak lingkunganmu.</p>
+          </div>
+          <div class="app-hero-right">
+            <button class="btn btn-lime" id="simulateGP"><i class="fa-solid fa-plus"></i> Simulasikan +25 GP</button>
+          </div>
+        </div>
+
+        <!-- KPI row -->
+        <div class="app-grid cols-4" style="margin-bottom:26px">
+          <div class="app-card kpi-card">
+            <div class="kpi-icon green"><i class="fa-solid fa-star"></i></div>
+            <div><div class="kpi-num" id="kpiGP">0</div><div class="kpi-label">Green Points</div></div>
+          </div>
+          <div class="app-card kpi-card">
+            <div class="kpi-icon green"><i class="fa-solid fa-weight-hanging"></i></div>
+            <div><div class="kpi-num" id="kpiKG">0</div><div class="kpi-label">KG Dipulihkan</div></div>
+          </div>
+          <div class="app-card kpi-card">
+            <div class="kpi-icon lime"><i class="fa-solid fa-fire"></i></div>
+            <div><div class="kpi-num" id="kpiStreak">0</div><div class="kpi-label">Streak Hari</div></div>
+          </div>
+          <div class="app-card kpi-card">
+            <div class="kpi-icon green"><i class="fa-solid fa-boxes-stacked"></i></div>
+            <div><div class="kpi-num" id="kpiItems">0</div><div class="kpi-label">Barang Teralihkan</div></div>
+          </div>
+        </div>
+
+        <div class="app-grid cols-2">
+          <!-- Green points ring -->
+          <div class="app-card">
+            <div class="ac-title">Progres Green Points <a href="rewards.html" class="ac-link">Reward <i class="fa-solid fa-arrow-right"></i></a></div>
+            <div class="ring-wrap">
+              <div class="ring-box" id="gpRing"></div>
+              <div>
+                <div class="kpi-num" style="font-size:2rem"><span id="gpBalance">0</span> GP</div>
+                <div class="kpi-label">Reward berikutnya di <strong id="gpProgressLabel">1000 GP</strong></div>
+                <div style="margin-top:10px"><span class="tag lime"><i class="fa-solid fa-gift"></i> <span id="gpNextReward">Botol Minum</span></span></div>
+              </div>
+            </div>
+            <div style="margin-top:20px" class="progress-track"><div class="progress-fill" id="dashBar" data-progress="0"></div></div>
+          </div>
+
+          <!-- Activity -->
+          <div class="app-card">
+            <div class="ac-title">Aktivitas Terbaru</div>
+            <div class="activity-list" id="dashActivity"></div>
+            <a href="impact.html" class="btn btn-ghost btn-sm" style="margin-top:16px">Lihat Dampak Lengkap <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="app-grid cols-3" style="margin-top:26px">
+          <a href="map.html" class="app-card hoverable" style="text-decoration:none">
+            <div class="ac-title"><span>Cari Titik Drop</span></div>
+            <div style="font-size:34px;color:var(--green);margin-bottom:10px"><i class="fa-solid fa-map-location-dot"></i></div>
+            <p style="color:var(--text-soft);font-size:0.92rem">Lokasi hub terdekat untuk menyetor sampah yang sudah kamu pilah.</p>
+          </a>
+          <a href="challenges.html" class="app-card hoverable" style="text-decoration:none">
+            <div class="ac-title"><span>Ikuti Tantangan</span></div>
+            <div style="font-size:34px;color:var(--green);margin-bottom:10px"><i class="fa-solid fa-trophy"></i></div>
+            <p style="color:var(--text-soft);font-size:0.92rem">Bangun kebiasaan baik dan kumpulkan poin bonus.</p>
+          </a>
+          <a href="rewards.html" class="app-card hoverable" style="text-decoration:none">
+            <div class="ac-title"><span>Tukar Reward</span></div>
+            <div style="font-size:34px;color:var(--green);margin-bottom:10px"><i class="fa-solid fa-gift"></i></div>
+            <p style="color:var(--text-soft);font-size:0.92rem">Tukarkan Green Points-mu dengan reward yang nyata.</p>
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!requireLogin()) return;
+      renderNavbar("navbar", "dashboard");
+      renderFooter("footer");
+      initToTop();
+
+      const user = sessions.user() || defaultUser;
+      document.getElementById("dashName").textContent = user.name.split(" ")[0] || "Regenerator";
+      document.getElementById("gpBalance").textContent = user.points;
+
+      // aktivitas
+      renderActivities("dashActivity", activities);
+
+      // ring
+      const points = user.points || 0;
+      const target = 1000;
+      const pct = Math.min(Math.round((points / target) * 100), 100);
+      drawRing(document.getElementById("gpRing"), pct);
+      setTimeout(() => {
+        const bar = document.getElementById("dashBar");
+        bar.style.width = pct + "%";
+      }, 400);
+      document.getElementById("gpProgressLabel").textContent = target + " GP";
+      document.getElementById("gpNextReward").textContent = pct >= 50 ? "Botol Minum" : "Tas Belanja Eco";
+
+      document.getElementById("sideLogout").addEventListener("click", e => {
+        e.preventDefault();
+        doLogout();
+      });
+    });
+  </script>
+</body>
+</html>

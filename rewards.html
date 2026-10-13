@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tukarkan Green Points RE:GEN-mu dengan reward yang berdampak.">
+  <title>Reward — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><span class="current">Reward</span>
+      </nav>
+      <h1 class="ph-title">Dampak Layak <span class="accent">Mendapat Reward.</span></h1>
+      <p class="ph-desc">Green Points-mu berubah menjadi hal yang nyata dan berguna — sekaligus planet yang lebih hijau.</p>
+      <div style="margin-top:26px" class="panel" style="display:inline-block;padding:22px 28px">
+        <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+          <div class="kpi-num" style="font-size:2.2rem"><span id="balGP">0</span> GP</div>
+          <span class="kpi-label" style="font-size:14px">Saldo tersedia</span>
+          <div style="flex:1;min-width:200px">
+            <div class="progress-track" style="margin-top:6px"><div class="progress-fill" id="balBar" data-progress="0"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:10px">
+    <div class="container">
+      <div class="app-grid cols-4" id="rewardsGrid"></div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "rewards");
+      renderFooter("footer");
+
+      const user = sessions.user() || defaultUser;
+      let balance = user.points || 0;
+      const maxCost = Math.max(...rewardsData.map(r => r.cost));
+      document.getElementById("balGP").textContent = balance;
+      const bar = document.getElementById("balBar");
+      setTimeout(() => { bar.style.width = Math.min((balance / maxCost) * 100, 100) + "%"; }, 400);
+
+      const grid = document.getElementById("rewardsGrid");
+      grid.innerHTML = rewardsData.map((r, i) => {
+        const pct = Math.min(Math.round((balance / r.cost) * 100), 100);
+        const affordable = balance >= r.cost;
+        const redeemed = store.get("redeemed", []);
+        const isRedeemed = redeemed.includes(r.name);
+        const featured = i === 1; // tandai tote sebagai featured
+        return `
+        <div class="reward-card ${featured ? "featured" : ""}">
+          ${featured ? '<div class="rc-pop">Populer</div>' : ""}
+          <div class="reward-media"><i class="fa-solid ${r.icon}"></i></div>
+          <div class="reward-card-body">
+            <h4>${r.name}</h4>
+            <p>${r.desc}</p>
+            <div class="reward-cost"><i class="fa-solid fa-star"></i> ${r.cost} GP</div>
+            <div class="reward-status"><span>Saldomu</span><strong>${balance} GP</strong></div>
+            <div class="progress-track"><div class="progress-fill" data-progress="${pct}"></div></div>
+            <div class="reward-status" style="margin-top:8px"><span>Progres</span><strong>${balance} / ${r.cost} GP</strong></div>
+            <button class="btn ${isRedeemed ? "btn-lime" : affordable ? "btn-primary" : "btn-ghost"}" data-redeem="${r.name}" data-cost="${r.cost}" ${isRedeemed ? "disabled" : ""} style="margin-top:18px">
+              ${isRedeemed ? '<i class="fa-solid fa-check"></i> Telah Ditukar' : affordable ? '<i class="fa-solid fa-gift"></i> Tukar' : '<i class="fa-solid fa-lock"></i> kurang ' + (r.cost - balance) + " GP"}
+            </button>
+          </div>
+        </div>`;
+      }).join("");
+
+      grid.querySelectorAll("[data-redeem]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (!requireLogin()) return;
+          const cost = parseInt(btn.getAttribute("data-cost"), 10);
+          const name = btn.getAttribute("data-redeem");
+          if (balance >= cost) {
+            balance -= cost;
+            const redeemed = store.get("redeemed", []);
+            redeemed.push(name);
+            store.set("redeemed", redeemed);
+            document.getElementById("balGP").textContent = balance;
+            const bar2 = document.getElementById("balBar");
+            bar2.style.width = Math.min((balance / maxCost) * 100, 100) + "%";
+            openModal({
+              icon: "fa-gift",
+              title: "Reward Berhasil Ditukar!",
+              text: `Kamu telah menukar ${name} dengan ${cost} GP. Cek emailmu untuk detail penukarannya.`,
+              confirmText: "Keren!"
+            });
+            showToast(name + " berhasil ditukar!", "success", "fa-gift");
+            btn.disabled = true;
+            btn.className = "btn btn-lime";
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Telah Ditukar';
+          } else {
+            showToast("GP-mu belum cukup. Terus berkontribusi ya!", "info", "fa-star");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jelajahi jenis sampah RE:GEN, cara memilahnya, dan berapa Green Points yang bisa kamu kumpulkan.">
+  <title>Jelajah Sampah — RE:GEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/images/Regen.png">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a><i class="fa-solid fa-chevron-right"></i><span class="current">Penjelajah Sampah</span>
+      </nav>
+      <h1 class="ph-title">Kenali <span class="accent">Sampahmu.</span></h1>
+      <p class="ph-desc">Jelajahi jenis sampah yang umum, cara memilahnya, dan berapa Green Points yang bisa kamu kumpulkan. Gunakan filter untuk mempersempit pencarian.</p>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-top:10px">
+    <div class="container">
+      <div class="explore-toolbar reveal">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="wasteSearch" placeholder="Cari sampah... mis. botol, kertas, kaleng" aria-label="Cari sampah">
+        </div>
+        <div class="filter-group" id="filterGroup">
+          <button class="filter-chip active" data-filter="all">Semua</button>
+          <button class="filter-chip" data-filter="plastic">Plastik</button>
+          <button class="filter-chip" data-filter="paper">Kertas</button>
+          <button class="filter-chip" data-filter="glass">Kaca</button>
+          <button class="filter-chip" data-filter="metal">Logam</button>
+          <button class="filter-chip" data-filter="organic">Organik</button>
+          <button class="filter-chip" data-filter="mixed">Campuran</button>
+        </div>
+      </div>
+
+      <div class="result-count" id="resultCount"></div>
+      <div class="waste-grid stagger" id="wasteGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <i class="fa-solid fa-magnifying-glass-minus"></i>
+        <h4>Hasil tidak ditemukan</h4>
+        <p>Coba kata kunci atau filter lain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map teaser -->
+  <section class="section greenpoints" id="mapTeaser">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow center">Drop Points</span>
+        <h2 class="section-title" style="color:#fff">Di Mana Kamu Bisa <span class="accent" style="background:linear-gradient(120deg,#fff,var(--lime));-webkit-background-clip:text;background-clip:text;color:transparent">Setor?</span></h2>
+        <p class="section-desc">Temukan hub RE:GEN terdekat dan beri sampahmu tujuan berikutnya.</p>
+      </div>
+      <div style="text-align:center" class="reveal">
+        <a href="map.html" class="btn btn-lime btn-lg"><i class="fa-solid fa-map-location-dot"></i> Temukan Titik Drop-mu</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNavbar("navbar", "explore");
+      renderFooter("footer");
+
+      const grid = document.getElementById("wasteGrid");
+      const search = document.getElementById("wasteSearch");
+      const chips = document.querySelectorAll(".filter-chip");
+      const count = document.getElementById("resultCount");
+      const empty = document.getElementById("emptyState");
+      let filter = "all";
+      let term = "";
+
+      function filtered() {
+        return wasteData.filter(w => {
+          const matchCat = filter === "all" || w.category === filter;
+          const t = term.toLowerCase();
+          const matchTerm = !t || w.name.toLowerCase().includes(t) || w.process.toLowerCase().includes(t) ||
+            CATEGORY_META[w.category].label.toLowerCase().includes(t);
+          return matchCat && matchTerm;
+        });
+      }
+
+      function render() {
+        const list = filtered();
+        grid.innerHTML = list.map(w => {
+          const cat = CATEGORY_META[w.category];
+          return `
+            <div class="waste-card">
+              <div class="waste-card-media cat-${w.category}-bg">
+                <span class="cat-pill" style="background:rgba(255,255,255,0.92);color:${w.category === "plastic" ? "#0B7A6B" : w.category === "paper" ? "#B45309" : w.category === "glass" ? "#2563EB" : w.category === "metal" ? "#7C5CBF" : w.category === "organic" ? "#15803D" : "#0B3D2E"}">${cat.label}</span>
+                <i class="fa-solid ${w.icon}" style="color:var(--green)"></i>
+              </div>
+              <div class="waste-card-body">
+                <h4>${w.name}</h4>
+                <div class="waste-meta">
+                  <div class="m"><span class="m-label">Poin</span><span class="m-value">+${w.points} GP / KG</span></div>
+                  <div class="m"><span class="m-label">Proses</span><span class="m-value plain">${w.process}</span></div>
+                </div>
+                <p style="color:var(--text-soft);font-size:0.88rem;margin-bottom:16px">${w.short}</p>
+                <a href="detail.html?id=${w.id}" class="btn btn-ghost btn-sm">Lihat Detail <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>`;
+        }).join("");
+        count.innerHTML = `Menampilkan <strong>${list.length}</strong> dari ${wasteData.length} jenis sampah`;
+        empty.style.display = list.length ? "none" : "block";
+      }
+
+      chips.forEach(chip => {
+        chip.addEventListener("click", () => {
+          chips.forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          filter = chip.getAttribute("data-filter");
+          render();
+        });
+      });
+      search.addEventListener("input", () => { term = search.value; render(); });
+
+      render();
+    });
+  </script>
+</body>
+</html>
